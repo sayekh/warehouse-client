@@ -1,0 +1,74 @@
+* {
+	/* border: 1px solid black; */
+	box-sizing: border-box;
+}
+.wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	background-color: #f7f9fa;
+	font-family: "Vazirmatn", sans-serif;
+}
+
+.card {
+	width: 320px;
+	background: white;
+	padding: 2rem;
+	border-radius: 16px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+	text-align: center;
+}
+
+.logo img {
+	width: 60px;
+	margin-bottom: 1rem;
+}
+
+.title {
+	margin-bottom: 1rem;
+	font-size: 1.25rem;
+	color: #333;
+}
+
+.formContent input {
+	text-align: right;
+	width: 100%;
+	margin-bottom: 12px;
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	font-size: 0.9rem;
+}
+
+.formContent button {
+	width: 100%;
+	padding: 10px;
+	background-color: #55a3f0;
+	color: white;
+	font-size: 1rem;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	margin-top: 0.5rem;
+}
+
+.formContent button:hover {
+	background-color: #2270da;
+}
+
+.toggle {
+	font-size: 0.85rem;
+	color: #55a3f0;
+	cursor: pointer;
+	margin-top: 1rem;
+}
+
+.error {
+	width: 100%;
+	color: red;
+	font-size: 0.75rem;
+	margin: -10px 0px 10px 0px;
+	padding-right: 15px;
+	text-align: right;
+}
