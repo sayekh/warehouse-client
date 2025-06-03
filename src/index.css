@@ -12,7 +12,11 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
-body {
+* {
 	padding: 0;
 	margin: 0;
+	direction: rtl;
+}
+body {
+	background-color: #f7f8f8;
 }

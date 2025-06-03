@@ -1,0 +1,130 @@
+* {
+	/* border: 1px solid black; */
+}
+.container {
+	display: flex;
+	flex-direction: column;
+	max-width: 1140px;
+	margin: 0 auto;
+	padding: 10px;
+}
+.searchSection {
+	width: 100%;
+	background-color: #ffffff;
+	border: 1px solid #e4e4e4;
+	height: 68px;
+	margin: 17px 0px;
+	border-radius: 16px;
+	display: flex;
+	justify-content: space-between;
+	padding: 0px 24px;
+	overflow: hidden;
+	& .searchInput {
+		width: 90%;
+		display: flex;
+		align-items: center;
+		& input {
+			width: 100%;
+			padding: 12px;
+			font-size: 16px;
+			font-weight: 400;
+			border: none;
+			outline: none;
+		}
+		& img {
+			width: 24px;
+			height: 24px;
+		}
+	}
+	& .searchProfile {
+		width: 10%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		& img {
+			width: 46px;
+			height: 46px;
+			margin-left: 5px;
+		}
+	}
+}
+.manageSection {
+	width: 100%;
+	& .title {
+		display: flex;
+		justify-content: space-between;
+		margin: 24px 0px;
+		& p {
+			font-size: 24px;
+			font-weight: 400;
+			display: flex;
+			align-items: center;
+		}
+		& img {
+			width: 30px;
+			height: 30px;
+			margin-left: 6px;
+			margin-top: 8px;
+		}
+		& button {
+			background-color: #55a3f0;
+			width: 132px;
+			height: 45px;
+			border: none;
+			border-radius: 10px;
+			font-size: 16px;
+			color: #ffffff;
+			font-weight: 400;
+		}
+	}
+	& .list {
+		width: 100%;
+		border-collapse: collapse;
+		border-radius: 16px;
+		overflow: hidden;
+		background-color: #ffffff;
+		position: relative;
+		& .fakeHeader {
+			position: absolute;
+			width: 100%;
+			height: 51px;
+			top: 0;
+			background-color: #f2f2f2;
+			border-bottom: 1px solid #e4e4e4;
+		}
+		& thead {
+			background-color: #f2f2f2;
+		}
+		& th,
+		& td {
+			padding: 12px;
+			text-align: center;
+			font-size: 16px;
+			font-weight: 400;
+			border-bottom: 1px solid #e4e4e4;
+			background-color: #ffffff;
+		}
+		& th {
+			background-color: #f2f2f2;
+			position: relative;
+			cursor: pointer;
+			border-right: 1px solid #e4e4e4;
+		}
+		& img {
+			margin: 10px;
+		}
+	}
+}
+.resizer {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 5px;
+	cursor: col-resize;
+	user-select: none;
+	height: 100%;
+}
+
+.thResizable {
+	position: relative;
+}

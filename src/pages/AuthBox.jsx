@@ -148,7 +148,7 @@ export default function AuthBox() {
 					setUser({ isLogged: true });
 					setTimeout(() => {
 						seeTheList();
-					}, 500);
+					}, 1000);
 				}
 			} catch (err) {
 				if (err.response && err.response.status === 400) {
