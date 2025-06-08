@@ -17,7 +17,7 @@
 	border-radius: 16px;
 	display: flex;
 	justify-content: space-between;
-	padding: 0px 24px;
+	padding: 0px 14px;
 	overflow: hidden;
 	& .searchInput {
 		width: 90%;
@@ -34,6 +34,17 @@
 		& img {
 			width: 24px;
 			height: 24px;
+		}
+		& .login {
+			background-color: #55a3f0;
+			width: 62px;
+			height: 40px;
+			border: none;
+			border-radius: 10px;
+			font-size: 16px;
+			color: #ffffff;
+			font-weight: 400;
+			margin-left: 10px;
 		}
 	}
 	& .searchProfile {

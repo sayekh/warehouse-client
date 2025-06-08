@@ -1,13 +1,13 @@
 import { useState } from "react";
 import styles from "./AuthBox.module.css";
-import { registerSchema } from "./../validation/registerSchema.js";
-import logo from "./../assets/logo.png";
-import api from "./../api.js";
+import { registerSchema } from "../../validation/registerSchema.js";
+import logo from "./../../assets/logo.png";
+import api from "../../api.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
-import { setCookie } from "../utils/cookie.js";
-import { useUserContext } from "../context/user.jsx";
+import { useNavigate, useLocation } from "react-router-dom";
+import { setCookie } from "../../utils/cookie.js";
+import { useUserContext } from "../../context/user.jsx";
 
 function LoginForm({ data, onChange, onSubmit, errors }) {
 	return (
@@ -77,7 +77,6 @@ function RegisterForm({ data, onChange, onSubmit, errors }) {
 }
 
 export default function AuthBox() {
-	const [isRegister, setIsRegister] = useState(true);
 	const { setUser } = useUserContext();
 	const [data, setData] = useState({
 		username: "",
@@ -86,6 +85,9 @@ export default function AuthBox() {
 	});
 	const [errors, setErrors] = useState({});
 	const navigate = useNavigate();
+	const location = useLocation();
+	const isRegisterPath = location.pathname === "/register";
+	const [isRegister, setIsRegister] = useState(isRegisterPath);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -181,6 +183,14 @@ export default function AuthBox() {
 	const seeTheList = () => {
 		navigate("/products");
 	};
+	const handleToggle = () => {
+		setErrors({});
+		if (isRegister) {
+			navigate("/login");
+		} else {
+			navigate("/register");
+		}
+	};
 
 	return (
 		<div className={styles.wrapper}>
@@ -209,7 +219,9 @@ export default function AuthBox() {
 						setErrors({});
 					}}
 				>
-					{isRegister ? "حساب کاربری دارید؟" : "ایجاد حساب کاربری؟"}
+					<p className={styles.toggle} onClick={handleToggle}>
+						{isRegister ? "حساب کاربری دارید؟" : "ایجاد حساب کاربری؟"}
+					</p>
 				</p>
 				<p className={styles.toggle} onClick={seeTheList}>
 					مشاهده لیست محصولات

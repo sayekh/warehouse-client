@@ -1,4 +1,4 @@
-import { useUserContext } from "../context/user";
+import { useUserContext } from "../../context/user.jsx";
 
 function HasAccess({ children }) {
 	const { isLogged } = useUserContext().user;

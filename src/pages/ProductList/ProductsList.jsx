@@ -1,25 +1,36 @@
 import { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getCookie } from "../utils/cookie";
-import { useUserContext } from "../context/user";
+import { deleteCookie, getCookie } from "../../utils/cookie";
+import { useUserContext } from "../../context/user";
 import styles from "./ProductList.module.css";
-import HasAccess from "../components/HasAccess";
-import milad from "./../assets/milad.png";
-import searchIcon from "./../assets/searchIcon.png";
-import modiriatKala from "./../assets/modiriatKala.png";
-import edit from "./../assets/edit.png";
-import deleteIcon from "./../assets/delete.png";
-import api from "../api";
+import HasAccess from "../../components/HasAccess/HasAccess";
+import milad from "./../../assets/milad.png";
+import searchIcon from "./../../assets/searchIcon.png";
+import modiriatKala from "./../../assets/modiriatKala.png";
+import edit from "./../../assets/edit.png";
+import deleteIcon from "./../../assets/delete.png";
+import api from "../../api";
+import InfoOutlineSharpIcon from "@mui/icons-material/InfoOutlineSharp";
+import { useNavigate } from "react-router-dom";
+import Modal from "../../components/Modal/Modal";
+
 function ProductsList() {
 	const [search, setSearch] = useState({ name: "", minPrice: null, maxPrice: null });
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(10);
 	const [data, setData] = useState([]);
-	const { setUser } = useUserContext();
+	const [showModal, setShowModal] = useState({
+		renderModal: false,
+		content: null,
+	});
+	const {
+		user: { isLogged },
+		setUser,
+	} = useUserContext();
 	const [deleteProducts, setDeleteProducts] = useState([]);
 	const thRefs = useRef([]);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (getCookie("token")) {
@@ -73,13 +84,58 @@ function ProductsList() {
 		document.addEventListener("mousemove", onMouseMove);
 		document.addEventListener("mouseup", onMouseUp);
 	};
-
+	const logout = () => {
+		deleteCookie("token");
+		setUser({ isLogged: false });
+		navigate("/login");
+	};
+	const addEdit = (index) => {
+		// If index is provided, it means we are editing an existing product
+		if (index !== undefined) {
+			const product = data[index];
+			setShowModal(() => ({
+				content: {
+					id: product.id,
+					name: product.name,
+					price: product.price,
+					quantity: product.quantity,
+				},
+				renderModal: true,
+			}));
+		} else {
+			setShowModal(() => ({
+				content: { id: "", name: "", price: 0, quantity: 0 },
+				renderModal: true,
+			}));
+		}
+	};
 	return (
 		<>
 			<ToastContainer />
+			{showModal.renderModal && (
+				<Modal
+					onClose={() =>
+						setShowModal({
+							renderModal: false,
+							content: null,
+						})
+					}
+					content={showModal.content}
+				/>
+			)}
 			<div className={styles.container}>
 				<div className={styles.searchSection}>
 					<div className={styles.searchInput}>
+						{isLogged ? (
+							<button className={styles.login} onClick={logout}>
+								خروج
+							</button>
+						) : (
+							<button className={styles.login} onClick={() => navigate("/login")}>
+								ورود
+							</button>
+						)}
+
 						<img src={searchIcon} alt="" />
 						<input
 							type="text"
@@ -100,12 +156,11 @@ function ProductsList() {
 							مدیریت کالا
 						</p>
 						<HasAccess>
-							<button >افزودن محصول</button>
+							<button onClick={addEdit}>افزودن محصول</button>
 						</HasAccess>
 					</div>
 					<div className={styles.list}>
 						<table>
-							<span className={styles.fakeHeader}></span>
 							<thead>
 								<tr>
 									<HasAccess>
@@ -130,10 +185,13 @@ function ProductsList() {
 										شناسه کالا
 										<div className={styles.resizer} onMouseDown={(e) => initResize(e, 4)}></div>
 									</th>
-
+									<th className={styles.thResizable} ref={(el) => (thRefs.current[5] = el)}>
+										اطلاعات
+										<div className={styles.resizer} onMouseDown={(e) => initResize(e, 5)}></div>
+									</th>
 									<HasAccess>
-										<th className={styles.thResizable} ref={(el) => (thRefs.current[5] = el)}>
-											<div className={styles.resizer} onMouseDown={(e) => initResize(e, 5)}></div>
+										<th className={styles.thResizable} ref={(el) => (thRefs.current[6] = el)}>
+											<div className={styles.resizer} onMouseDown={(e) => initResize(e, 6)}></div>
 										</th>
 									</HasAccess>
 								</tr>
@@ -152,6 +210,9 @@ function ProductsList() {
 											<td>{product.quantity}</td>
 											<td>{product.price}</td>
 											<td>{product.id}</td>
+											<td onClick={() => navigate(`/products/${product.id}`)}>
+												<InfoOutlineSharpIcon />
+											</td>
 											<HasAccess>
 												<td>
 													<img src={edit} alt="" />
