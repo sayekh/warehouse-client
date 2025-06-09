@@ -1,0 +1,74 @@
+* {
+	/* border: 1px solid black; */
+}
+.container {
+	box-sizing: border-box;
+	width: 100%;
+	height: 100vh;
+	position: fixed;
+	z-index: 100;
+	top: 0;
+	right: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10px;
+	background: #3333337d;
+	backdrop-filter: blur(10px);
+	& .card {
+		width: 460px;
+		height: auto;
+		padding: 31px 35px;
+		background-color: #ffffff;
+		border-radius: 30px;
+		& .header {
+			font-size: 20px;
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin-bottom: 30px;
+			font-weight: 500px;
+			& .deleteIconModal {
+				width: 40px;
+				margin-left: 15px;
+			}
+		}
+		& .contents {
+			margin-bottom: 20px;
+			& p {
+				margin-bottom: 7px;
+			}
+			& input {
+				height: 42px;
+				width: 100%;
+				margin-bottom: 17px;
+				background-color: #f2f2f2;
+				border: none;
+				border-radius: 8px;
+				padding: 10px;
+			}
+		}
+		& .actions {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: center;
+			gap: 20px;
+			& button {
+				background-color: #55a3f0;
+				width: 185px;
+				height: 40px;
+				border: none;
+				border-radius: 10px;
+				font-size: 14px;
+				color: #ffffff;
+				font-weight: 500;
+				&.close {
+					background-color: #dfdfdf;
+					color: #282828cc;
+				}
+			}
+		}
+	}
+}

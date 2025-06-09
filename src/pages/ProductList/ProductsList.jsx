@@ -23,6 +23,7 @@ function ProductsList() {
 	const [showModal, setShowModal] = useState({
 		renderModal: false,
 		content: null,
+		type: "add",
 	});
 	const {
 		user: { isLogged },
@@ -41,27 +42,28 @@ function ProductsList() {
 	}, []);
 
 	useEffect(() => {
-		const getProducts = async () => {
-			try {
-				const response = await api.get("/products", {
-					params: {
-						name: search.name || undefined,
-						minPrice: search.minPrice || undefined,
-						maxPrice: search.maxPrice || undefined,
-						page,
-						limit,
-					},
-				});
-				if (response.status === 200) {
-					setData(response.data.data);
-				}
-			} catch (error) {
-				console.log(error);
-				setData([]);
-			}
-		};
-		getProducts();
+		fetchProducts();
 	}, [search.name, search.minPrice, search.maxPrice, page, limit]);
+
+	const fetchProducts = async () => {
+		try {
+			const response = await api.get("/products", {
+				params: {
+					name: search.name || undefined,
+					minPrice: search.minPrice || undefined,
+					maxPrice: search.maxPrice || undefined,
+					page,
+					limit,
+				},
+			});
+			if (response.status === 200) {
+				setData(response.data.data);
+			}
+		} catch (error) {
+			console.log(error);
+			setData([]);
+		}
+	};
 
 	const initResize = (e, index) => {
 		const startX = e.clientX;
@@ -89,10 +91,12 @@ function ProductsList() {
 		setUser({ isLogged: false });
 		navigate("/login");
 	};
-	const addEdit = (index) => {
-		// If index is provided, it means we are editing an existing product
-		if (index !== undefined) {
-			const product = data[index];
+	const addEditDelete = (id, type) => {
+		// If id is provided, it means we are editing an existing product
+		console.log(id);
+		
+		if (id) {
+			const product = data.find((p) => p.id === id);
 			setShowModal(() => ({
 				content: {
 					id: product.id,
@@ -101,11 +105,13 @@ function ProductsList() {
 					quantity: product.quantity,
 				},
 				renderModal: true,
+				type: type,
 			}));
 		} else {
 			setShowModal(() => ({
-				content: { id: "", name: "", price: 0, quantity: 0 },
+				content: { name: "", price: 0, quantity: 0 },
 				renderModal: true,
+				type: "add",
 			}));
 		}
 	};
@@ -118,9 +124,12 @@ function ProductsList() {
 						setShowModal({
 							renderModal: false,
 							content: null,
+							type: "add",
 						})
 					}
 					content={showModal.content}
+					type={showModal.type}
+					onSuccess={fetchProducts}
 				/>
 			)}
 			<div className={styles.container}>
@@ -156,7 +165,7 @@ function ProductsList() {
 							مدیریت کالا
 						</p>
 						<HasAccess>
-							<button onClick={addEdit}>افزودن محصول</button>
+							<button onClick={()=>addEditDelete()}>افزودن محصول</button>
 						</HasAccess>
 					</div>
 					<div className={styles.list}>
@@ -215,8 +224,8 @@ function ProductsList() {
 											</td>
 											<HasAccess>
 												<td>
-													<img src={edit} alt="" />
-													<img src={deleteIcon} alt="" />
+													<img src={edit} alt="" onClick={() => addEditDelete(product.id, "edit")} />
+													<img src={deleteIcon} alt="" onClick={() => addEditDelete(product.id, "delete")}/>
 												</td>
 											</HasAccess>
 										</tr>

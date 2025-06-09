@@ -9,7 +9,7 @@ const api = axios.create({
 
 api.interceptors.request.use((config) => {
 	const token = getCookie("token");
-	if (token && config.url.startsWith("/products") && config.method.toLowerCase() === "get") {
+	if (token) {
 		config.headers.Authorization = `Bearer ${token}`;
 	}
 	return config;
