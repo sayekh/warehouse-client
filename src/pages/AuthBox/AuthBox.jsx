@@ -132,7 +132,6 @@ export default function AuthBox() {
 		setData(updatedData);
 
 		let isValid = true;
-		console.log(!fromRegister);
 		if (!fromRegister) {
 			isValid = await validation(updatedData);
 		}
@@ -190,6 +189,7 @@ export default function AuthBox() {
 		} else {
 			navigate("/register");
 		}
+		setIsRegister(!isRegister);
 	};
 
 	return (
@@ -211,17 +211,8 @@ export default function AuthBox() {
 						errors={errors}
 					/>
 				)}
-
-				<p
-					className={styles.toggle}
-					onClick={() => {
-						setIsRegister(!isRegister);
-						setErrors({});
-					}}
-				>
-					<p className={styles.toggle} onClick={handleToggle}>
-						{isRegister ? "حساب کاربری دارید؟" : "ایجاد حساب کاربری؟"}
-					</p>
+				<p className={styles.toggle} onClick={handleToggle}>
+					{isRegister ? "حساب کاربری دارید؟" : "ایجاد حساب کاربری؟"}
 				</p>
 				<p className={styles.toggle} onClick={seeTheList}>
 					مشاهده لیست محصولات
