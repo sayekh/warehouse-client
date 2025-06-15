@@ -20,6 +20,7 @@ function ProductsList() {
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(10);
 	const [data, setData] = useState([]);
+	const [info, setInfo] = useState({ page: 1, limit: 10, totalProducts: 0, totalPages: 0 });
 	const [showModal, setShowModal] = useState({
 		renderModal: false,
 		content: null,
@@ -58,6 +59,9 @@ function ProductsList() {
 			});
 			if (response.status === 200) {
 				setData(response.data.data);
+				const { data: _, ...rest } = response.data;
+				setInfo(rest);
+				console.log(rest);
 			}
 		} catch (error) {
 			console.log(error);
@@ -94,7 +98,7 @@ function ProductsList() {
 	const addEditDelete = (id, type) => {
 		// If id is provided, it means we are editing an existing product
 		console.log(id);
-		
+
 		if (id) {
 			const product = data.find((p) => p.id === id);
 			setShowModal(() => ({
@@ -165,7 +169,7 @@ function ProductsList() {
 							مدیریت کالا
 						</p>
 						<HasAccess>
-							<button onClick={()=>addEditDelete()}>افزودن محصول</button>
+							<button onClick={() => addEditDelete()}>افزودن محصول</button>
 						</HasAccess>
 					</div>
 					<div className={styles.list}>
@@ -225,7 +229,11 @@ function ProductsList() {
 											<HasAccess>
 												<td>
 													<img src={edit} alt="" onClick={() => addEditDelete(product.id, "edit")} />
-													<img src={deleteIcon} alt="" onClick={() => addEditDelete(product.id, "delete")}/>
+													<img
+														src={deleteIcon}
+														alt=""
+														onClick={() => addEditDelete(product.id, "delete")}
+													/>
 												</td>
 											</HasAccess>
 										</tr>
@@ -238,6 +246,30 @@ function ProductsList() {
 							</tbody>
 						</table>
 					</div>
+				</div>
+			</div>
+			<div className={styles.pagination}>
+				<div className={styles.limit}>
+					<label htmlFor="limit">تعداد در صفحه</label>
+					<select id="limit" value={limit} onChange={(e) => setLimit(e.target.value)}>
+						<option value={10}>10</option>
+						<option value={25}>25</option>
+						<option value={50}>50</option>
+						<option value={100}>100</option>
+					</select>
+					<label htmlFor="page">صفحه</label>
+					<select id="page" value={page} onChange={(e) => setPage(e.target.value)}>
+						{Array.from({ length: info.totalPages }).map((_, index) => (
+							<option>{index + 1}</option>
+						))}
+					</select>
+				</div>
+				<div className={styles.info}>
+					{(info.page - 1) * limit + 1} - {info.page * limit} از {info.totalProducts}
+				</div>
+				<div className={styles.page}>
+					<button className={styles.next}></button>
+					<button className={styles.prev}></button>
 				</div>
 			</div>
 		</>

@@ -139,3 +139,13 @@
 .thResizable {
 	position: relative;
 }
+
+.pagination {
+	& .info {
+		text-align: center;
+		background-color: #a0a0a080;
+		border-radius: 10px;
+		width: 120px;
+		padding: 6px 10px;
+	}
+}
